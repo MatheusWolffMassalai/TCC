@@ -10,7 +10,7 @@ class Perfil extends Model
     public $timestamps = false;
 
     use HasFactory;
-    protected $fillable = ['id','especialista','admin','imagem',];
+    protected $fillable = ['id','especialista','admin','imagem',];p
 
     public $rules = [
         'nome' => 'required|min:3|max:200',

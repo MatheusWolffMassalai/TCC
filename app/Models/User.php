@@ -21,10 +21,15 @@ class User extends Authenticatable
         'name',
         'email',
         'curriculo',
-        'especialista',
-        'admin',
+        'type',
         'imagem',
+        'artigos_visitados',
+        'edicoes_sugeridas',
+        'edicoes_aceitas',
+        'exercicios_resolvidos',
+        'banido',
         'password',
+        
     ];
 
     /**

@@ -14,17 +14,12 @@ class CreateArtigoTable extends Migration
     public function up()
     {
         Schema::create('artigo', function (Blueprint $table) {
-            $table->increments('id');
-            $table->text('filo')->unique();
-            $table->text('cara_gerais');
-            $table->text('classes')->nullable();
-            $table->text('habitat')->nullable();
-            $table->text('localizacao')->nullable();
-            $table->text('alimentacao')->nullable();
-            $table->text('fisiologia')->nullable();
-            $table->text('exemplos')->nullable();
-            $table->text('referencias')->nullable();
-            $table->string('imagens')->nullable();
+            $table->id();
+            $table->unsignedBigInteger('id_filo')->unique();
+            $table->string('nome_filo')->unique();
+            $table->text('referencias');
+            $table->foreign('id_filo')->references('id')->on('filos');
+            $table->foreign('nome_filo')->references('nome_filo')->on('filos');
         });
     }
 

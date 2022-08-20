@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Perfil;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use File;
 
 class PerfilController extends Controller
 {
@@ -15,13 +16,19 @@ class PerfilController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct(){
-        $this->middleware('auth')->only(['index','create','update','destroy']);
+    public function __construct()
+    {
+        $this->middleware('auth')->only(['index', 'create', 'update', 'destroy']);
     }
     public function index()
     {
-       // $usuarios = DB::table('users')->where('id' , auth()->user()->id)->get(); 
-        
+        // $usuarios = DB::table('users')->where('id' , auth()->user()->id)->get(); 
+        if (strcmp(auth()->user()->type, 'especialista') == 0) {
+
+            echo "especialista";
+        }
+
+
         return view('perfil');
     }
 
@@ -32,7 +39,6 @@ class PerfilController extends Controller
      */
     public function create()
     {
-     
     }
 
     /**
@@ -43,7 +49,6 @@ class PerfilController extends Controller
      */
     public function store(Request $request)
     {
-        
     }
 
     /**
@@ -54,7 +59,6 @@ class PerfilController extends Controller
      */
     public function show($id)
     {
-        
     }
 
     /**
@@ -77,7 +81,42 @@ class PerfilController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $dados = $request->except('imagem');
+        $imagem = $request->file('imagem');
+        $user = User::find($id);
+
+        if ($request->hasFile('imagem')) {
+
+            $nome = "imagem/{$user->getAttributes()['imagem']}";
+            if ($nome != "padrao.png") {
+                File::delete($nome);
+                $extensao = "." . $imagem->extension();
+                $novonome = md5(time()) . $extensao;
+                $imagem->move('imagem', ($novonome));
+                $teste = array('imagem' => $novonome);
+
+
+                $update2 = $user->update($teste);
+            }
+        }
+
+
+
+        //  $this->validate($request, $receita->rules, $receita->messages);
+
+
+        //  $dataForm = $request->except('imagem');
+
+        //  $produto = Produto::find($id);
+        // $this->validate($request, $produto->rules, $produto->messages);
+        //  $update = $produto->update($dataForm);
+
+        $update = $user->update(['name' => $dados["nome"]]);
+        //  return redirect()->route('perfil.index');//->with(['erros'=> 'Falha ao editar']);
+
+        // $Atualiza = User::where('id', '=', Auth::user()->id)->update(['name' => $dados -> "nome"]);
+
+
     }
 
     /**

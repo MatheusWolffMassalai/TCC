@@ -64,13 +64,24 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+
+        if($data['curriculo'] != ""){
+            $type = "especialista";
+        }else{
+            $type = "comum";
+        }
+        
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'curriculo' => $data['curriculo'],
-            'especialista' => false,
-            'admin' => false,
-            'imagem' => null,
+            'type' => $type,
+            'imagem' => "padrao.png",
+            'artigos_visitados' => 0,
+            'edicoes_sugeridas'=> 0,
+            'edicoes_aceitas'=> 0,
+            'exercicios_resolvidos'=> 0,
+            'banido'=> false,
             'password' => Hash::make($data['password']),
         ]);
         

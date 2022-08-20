@@ -14,12 +14,14 @@ class CreateExerciciosTable extends Migration
     public function up()
     {
         Schema::create('exercicios', function (Blueprint $table) {
-            $table->increments('id');
-            $table->text('filo')->unique();
+            $table->id();
+            $table->unsignedBigInteger('id_filo');
             $table->text('pergunta');
             $table->text('resposta_certa');
-            $table->text('respostas_erradas');
-            
+            $table->text('resposta_errada1');
+            $table->text('resposta_errada2');
+            $table->text('resposta_errada3');
+            $table->foreign('id_filo')->references('id')->on('filos');
         });
     }
 
