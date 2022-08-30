@@ -69,7 +69,7 @@
     @endforeach
 </div>
 
-
+<script src="../../../node_modules/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
 <script>
 ClassicEditor
     .create(document.querySelector('#ajuda'))
