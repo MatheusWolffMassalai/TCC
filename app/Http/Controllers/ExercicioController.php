@@ -109,6 +109,26 @@ class ExercicioController extends Controller
 
         $dados = $request;
         $exercicios = DB::table('exercicios')->where('id', $dados['id'])->get();
+        //echo $dados['resposta'];
+        //echo $exercicios;
+        $user = User::find($id);
+
+        // echo $dados['lista'];
+        $listas = array(1, 1, 1, 1);
+        $listas[0] = $dados["0"];
+        $listas[1] = $dados["1"];
+        $listas[2] = $dados["2"];
+        $listas[3] = $dados["3"];
+        if ($dados['resposta'] == $exercicios[0]->resposta_certa) {
+            $exercicios_novos = Auth::user()->exercicios_resolvido + 1;
+            $user->update(['exercicios_resolvidos' => $exercicios_novos]);
+            echo "parabens";
+        } else {
+            echo "errado";
+        }
+        print_r($listas);
+
+        return view("exercicio", compact("exercicios", "listas"));
     }
 
     /**

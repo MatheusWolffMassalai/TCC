@@ -23,10 +23,10 @@ class GeralController extends Controller
         $vetor[] = 30;
 
 
-        echo $vetor[2];
 
 
         return view('index', compact('filos'));
+        echo $vetor[2];
     }
     public function a()
     {

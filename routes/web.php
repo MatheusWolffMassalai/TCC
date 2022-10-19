@@ -29,6 +29,11 @@ Route::get('/', [App\Http\Controllers\GeralController::class, 'index'])->name('i
 
 Route::get('/filos/{id}', [App\Http\Controllers\FilosController::class, 'index'])->name('filoindex');
 Route::post('/perfil', [App\Http\Controllers\PerfilController::class, 'index']);
+Route::post('/perfil', [App\Http\Controllers\PerfilController::class, 'index']);
+Route::get('/confirmaedicao', [App\Http\Controllers\EdicaoController::class, 'index']);
+Route::post('/confirmaedicao/update', [App\Http\Controllers\EdicaoController::class, 'update']);
+
+
 Route::post('/comentario', [App\Http\Controllers\ReceitaController::class, 'store'])->name('comentario');
 Route::get('/artigo/criar', [App\Http\Controllers\ArtigoController::class, 'index']);
 Route::post('/artigo/salvar', [App\Http\Controllers\ArtigoController::class, 'store']);

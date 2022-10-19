@@ -59,6 +59,8 @@
         <div class="col-6">
             <div>
 
+
+                {!! Form::hidden('user', Auth::user()->id) !!}
                 {!! Form::submit('Enviar', ['class' => 'btn btn-lg btn-block', 'id' =>'enviar']) !!}
 
             </div>

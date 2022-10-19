@@ -11,6 +11,8 @@ use App\Models\forum_artigo;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Models\sugestao_edicao;
+
 use File;
 
 
@@ -143,7 +145,6 @@ class FilosController extends Controller
         $dados = $request->except('imagem');
         $imagem = $request->file('imagem');
 
-        $top = topicos_artigos::find($id);
 
 
         if ($request->hasFile('imagem')) {
@@ -157,14 +158,24 @@ class FilosController extends Controller
                 $teste = array('imagem' => $novonome);
 
 
-                $update2 = $top->update($teste);
+                //  $update2 = $top->update($teste);
             }
         }
 
+        sugestao_edicao::create([
+            'id_topico' => $dados['user'],
+            'user_id' => 1,
+            'especialista_id' => 1,
+            'texto' => $dados['texto'],
+            'aceita' => false,
+            'imagem' => $novonome,
 
+        ]);
         //$this->validate($request, $receita->rules, $receita->messages);
         //  $topico = $topicos[0];
-        $update = $top->update(['texto' => $dados['texto']]);
+
+        $top = topicos_artigos::find($id);
+        //$update = $top->update(['texto' => $dados['texto']]);
 
 
         return redirect()->route('index');

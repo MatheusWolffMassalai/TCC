@@ -7,9 +7,14 @@
 <div class="titulo">
     <h1> {{$exercicio->pergunta}} </h1>
     {!! Form::hidden('id', $exercicio->id ) !!}
+    {!! Form::hidden('0', $listas[0] ) !!}
+    {!! Form::hidden('1', $listas[1] ) !!}
+    {!! Form::hidden('2', $listas[2] ) !!}
+    {!! Form::hidden('3', $listas[3] ) !!}
+
     @csrf
     @foreach ($listas as $lista) <div class="from-check">
-        {!! Form::radio($exercicio->id, $exercicio->$lista ) !!}
+        {!! Form::radio('resposta', $exercicio->$lista ) !!}
         <label class="form-check-label" for={{$exercicio->id}}>
 
             {{$exercicio->$lista}}
