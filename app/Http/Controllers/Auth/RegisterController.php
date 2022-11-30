@@ -65,12 +65,12 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
 
-        if($data['curriculo'] != ""){
+        if ($data['curriculo'] != "") {
             $type = "especialista";
-        }else{
+        } else {
             $type = "comum";
         }
-        
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -78,12 +78,14 @@ class RegisterController extends Controller
             'type' => $type,
             'imagem' => "padrao.png",
             'artigos_visitados' => 0,
-            'edicoes_sugeridas'=> 0,
-            'edicoes_aceitas'=> 0,
-            'exercicios_resolvidos'=> 0,
-            'banido'=> false,
+            'edicoes_verificadas' => 0,
+            'artigos_criados' => 0,
+            'edicoes_sugeridas' => 0,
+            'edicoes_aceitas' => 0,
+            'exercicios_resolvidos' => 0,
+            'exercicios_criados' => 0,
+            'banido' => false,
             'password' => Hash::make($data['password']),
         ]);
-        
     }
 }

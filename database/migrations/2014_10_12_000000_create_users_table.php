@@ -21,9 +21,12 @@ class CreateUsersTable extends Migration
             $table->string('type');
             $table->string('imagem')->nullable();
             $table->integer('artigos_visitados');
+            $table->integer('edicoes_verificadas');
+            $table->integer('artigos_criados');
             $table->integer('edicoes_sugeridas');
             $table->integer('edicoes_aceitas');
             $table->integer('exercicios_resolvidos');
+            $table->integer('exercicios_criados');
             $table->boolean('banido');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

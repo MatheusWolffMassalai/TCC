@@ -3,22 +3,26 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\topicos_artigos;
-use App\Models\forum_artigo;
+use App\Models\Artigo;
+use App\Models\userAcessoArtigo;
+
+use App\Models\Exercicio;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use File;
 
-class comentarioController extends Controller
+
+
+class RankingGeralController extends Controller
 {
-
-
-    public function __construct()
-    {
-        $this->middleware('auth')->only(['store']);
-    }
     /**
      * Display a listing of the resource.
      *
@@ -26,7 +30,25 @@ class comentarioController extends Controller
      */
     public function index()
     {
-        //
+        $dicionarios = [];
+        $rankings = DB::table('users')->get();
+
+
+
+        //  for ($i = 0; $i < count($rankings); $i++) {
+
+        //     $rankings[$i]->password = $rankings[$i]->artigos_visitados + $rankings[$i]->edicoes_aceitas + $rankings[$i]->exercicios_resolvidos;
+        //     $rankings[$i]->banido = $i;
+
+        foreach ($rankings as $ranking) {
+            $pontuaçao = $ranking->artigos_visitados + $ranking->edicoes_aceitas + $ranking->exercicios_resolvidos;
+            $dicionarios[$ranking->name] = $pontuaçao;
+            arsort($dicionarios);
+        }
+        //  }
+
+        print_r($dicionarios);
+        return view('rankingGeral', compact('rankings', 'dicionarios'));
     }
 
     /**
@@ -47,26 +69,7 @@ class comentarioController extends Controller
      */
     public function store(Request $request)
     {
-
-
-
-        $dados = $request->except('_token');
-
-        $forum = new forum_artigo;
-
-        $forum->artigo_id = $request->artigo_id;
-        $forum->mensagem = $request->mensagem;
-        $id = $request->filo_id;
-        $forum->user_id =  Auth::user()->id;
-
-
-
-
-
-
-        $forum->save();
-
-        return redirect()->route('filoindex', $id);
+        //
     }
 
     /**

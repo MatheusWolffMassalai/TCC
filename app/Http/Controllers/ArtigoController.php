@@ -73,26 +73,46 @@ class ArtigoController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request;
+
+        if (strcmp(auth()->user()->type, 'especialista') == 0) {
+
+
+            $data = $request;
 
 
 
-        $filos = DB::table('filos')->where('id', $data['id_filo'])->get();
-        DB::table('artigo')->insert([
-            'id_filo' => $data['id_filo'],
-            'nome_filo' => $filos[0]->nome_filo,
-            'referencias' => $data['texto'],
+            $filos = DB::table('filos')->where('id', $data['id_filo'])->get();
+            DB::table('artigo')->insert([
+                'id_filo' => $data['id_filo'],
+                'nome_filo' => $filos[0]->nome_filo,
 
-        ]);
-        $artigos = DB::table('artigo')->where('id_filo', $filos[0]->id)->get();
+            ]);
+            $artigos = DB::table('artigo')->where('id_filo', $filos[0]->id)->get();
 
-        topicos_artigos::create([
-            'artigo_id' => $artigos[0]->id,
-            'titulo' => $data['titulo'],
-            'texto' => $data['texto'],
+            topicos_artigos::create([
+                'artigo_id' => $artigos[0]->id,
+                'titulo' => $data['titulo'],
+                'texto' => $data['texto'],
+                'aceito' => true,
+                'referencias' => $data['referencias'],
 
-        ]);
-        return redirect()->route('index');
+
+            ]);
+
+            //   topicos_artigos::create([
+            ////       'artigo_id' => $filos[0]->id,
+            //       'texto' => $request['texto'],
+            //      'titulo' => $request['titulo'],
+            //      'imagem' => $request['user'],
+            //      'aceito' => false,
+            //       'referencias' => $request['referencias']
+            //  ]);
+
+            $usuario3 = User::find(Auth::user()->id);
+            $usuario3->update(['artigos_criados' => $usuario3->artigos_criados + 1]);
+
+            return redirect()->route('index');
+        }
     }
 
     /**

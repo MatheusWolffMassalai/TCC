@@ -3,22 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\topicos_artigos;
+use App\Models\userAcessoArtigo;
+
 use App\Models\forum_artigo;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Models\sugestao_edicao;
+use App\Models\novos_topico;
 use File;
 
-class comentarioController extends Controller
+class NovoTopico extends Controller
 {
-
-
-    public function __construct()
-    {
-        $this->middleware('auth')->only(['store']);
-    }
     /**
      * Display a listing of the resource.
      *
@@ -26,7 +25,9 @@ class comentarioController extends Controller
      */
     public function index()
     {
-        //
+        $novos = DB::table('novos_topicos')->where('especialista_id', Auth::user()->id)->get();
+        echo $novos;
+        return view('confirmar_novo_topico', compact('novos'));
     }
 
     /**
@@ -47,26 +48,16 @@ class comentarioController extends Controller
      */
     public function store(Request $request)
     {
+        //  topicos_artigos::create([
+        //      'artigo_id' => $artigos[0]->id,
+        //      'titulo' => $data['titulo'],
+        //     'texto' => $data['texto'],
+        //      'aceito' => true,
+        //      'referencias' => $data['referencias'],
 
 
-
-        $dados = $request->except('_token');
-
-        $forum = new forum_artigo;
-
-        $forum->artigo_id = $request->artigo_id;
-        $forum->mensagem = $request->mensagem;
-        $id = $request->filo_id;
-        $forum->user_id =  Auth::user()->id;
-
-
-
-
-
-
-        $forum->save();
-
-        return redirect()->route('filoindex', $id);
+        //  ]);
+        return view('perfil');
     }
 
     /**
@@ -88,7 +79,6 @@ class comentarioController extends Controller
      */
     public function edit($id)
     {
-        //
     }
 
     /**

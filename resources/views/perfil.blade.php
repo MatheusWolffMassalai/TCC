@@ -42,7 +42,9 @@
         </div>
 
 
-
+        <a href="{{ url('/novotopico/') }}">
+            <h2 class="filosTextos">a </h2>
+        </a>
     </h1>
     <p></p>
     Artigos visitados: {{Auth::user()->artigos_visitados}}

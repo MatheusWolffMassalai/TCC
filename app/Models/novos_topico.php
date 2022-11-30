@@ -5,18 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class topicos_artigos extends Model
+class novos_topico extends Model
 {
     use HasFactory;
     public $timestamps = false;
 
     protected $fillable = [
+        'user_id',
         'texto',
         'artigo_id',
         'titulo',
         'aceito',
         'imagem',
-        'artigo_id'
+        'artigo_id',
+        'aceito',
+        'user_id',
+        'especialista_id'
 
 
     ];

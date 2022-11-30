@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\sugestao_edicao;
-
+use App\Models\novos_topico;
 use File;
 
 
@@ -23,9 +23,10 @@ class FilosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function __construct()
     {
-        $this->middleware('auth')->only(['store', 'update', 'destroy']);
+        $this->middleware('auth')->only(['store', 'index', 'create', 'store', 'edit', 'update']);
     }
     public function index($id)
     {
@@ -40,17 +41,15 @@ class FilosController extends Controller
 
         if (auth()->user()) {
 
-            $acesso_antigo = DB::table('user_acesso_artigos')->where('user_id', auth()->user()->id)->get();
+            $acesso_antigo = DB::table('user_acesso_artigos')->where('user_id', '=', auth()->user()->id)->where('artigo_id', '=', $artigos[0]->id)->get();
 
-            // $dia = date("Y-m-d") - $acesso_antigo[0]->data;
-            //    $date1 = date("Y-m-d H:i:s");
-            //   $date2 = $acesso_antigo[0]->data;
-            //  $diff = abs(strtotime($date1) - strtotime($date2)) / 86400;
 
-            //  $acesso_antigo[0]->data;
-            ///$interval = $date1->diff($date2);
+            $user = User::find(Auth::user()->id);
 
+            echo $acesso_antigo;
             if ($acesso_antigo != "[]") {
+
+
                 $date1 = date("Y-m-d H:i:s");
                 $date2 = $acesso_antigo[0]->data;
                 $diff = abs(strtotime($date1) - strtotime($date2)) / 86400;
@@ -60,6 +59,10 @@ class FilosController extends Controller
                 if ($diff >= 7) {
                     $acess =  userAcessoArtigo::find($acesso_antigo[0]->id);
                     $acess->delete();
+
+                    $visitas_novas = Auth::user()->artigos_visitados + 1;
+
+                    $user->update(['artigos_visitados' => $visitas_novas]);
 
                     $acesso = new userAcessoArtigo;
                     $acesso->artigo_id = $artigos[0]->id;
@@ -73,14 +76,16 @@ class FilosController extends Controller
                 $acesso->data = date("Y-m-d H:i:s");
 
                 $acesso->user_id =  Auth::user()->id;
+                $visitas_novas = Auth::user()->artigos_visitados + 1;
 
+                $user->update(['artigos_visitados' => $visitas_novas]);
 
 
                 $acesso->save();
             }
         }
 
-
+        echo $filos;
         return view('artigos', compact('topicos', 'forums', 'artigos', 'filos'));
     }
 
@@ -89,9 +94,13 @@ class FilosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        //
+
+        $filos = DB::table('filos')->where('id', $id)->get();
+
+
+        return view('criarTopico', compact('filos'));
     }
 
     /**
@@ -102,7 +111,38 @@ class FilosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $filos = DB::table('artigo')->where('nome_filo', $request['id_filo'])->get();
+
+        echo $filos;
+        novos_topico::create([
+
+            'user_id' => Auth::user()->id,
+            'especialista_id' => 2,
+            'texto' => $request['texto'],
+            'aceito' => false,
+            'imagem' => $request['user'],
+            'artigo_id' => $filos[0]->id,
+            'titulo' => $request['titulo'],
+            //'referencias' => $request['referencias']
+
+
+        ]);
+        //  topicos_artigos::create([
+        //      'artigo_id' => $filos[0]->id,
+        //      'texto' => $request['texto'],
+        //      'titulo' => $request['titulo'],
+        //     'imagem' => $request['user'],
+        //     'aceito' => false,
+        //     'referencias' => $request['referencias']
+        //  ]);
+        echo  $request['texto'];
+        // echo $request['referancias'];
+        // echo  $request['titulo'];
+        // echo  $request['user'];
+
+        // ]);
+        return view('perfil');
     }
 
     /**
@@ -146,25 +186,30 @@ class FilosController extends Controller
         $imagem = $request->file('imagem');
 
 
-
+        $top = topicos_artigos::find($id);
         if ($request->hasFile('imagem')) {
 
             $nome = "imagem/{$top->getAttributes()['imagem']}";
-            if ($nome != "padrao.png") {
+
+            if ("a" != "padrao.png" and "a" != "") {
                 File::delete($nome);
                 $extensao = "." . $imagem->extension();
                 $novonome = md5(time()) . $extensao;
                 $imagem->move('imagem', ($novonome));
-                $teste = array('imagem' => $novonome);
 
 
-                //  $update2 = $top->update($teste);
+
+                //  $update2 = $imagem->update($teste);
+            } else {
+                $extensao = "." . $imagem->extension();
+                $novonome = md5(time()) . $extensao;
+                $imagem->move('imagem', ($novonome));
             }
         }
-
+        print_r($dados);
         sugestao_edicao::create([
-            'id_topico' => $dados['user'],
-            'user_id' => 1,
+            'id_topico' => $dados['id'],
+            'user_id' => $dados['user'],
             'especialista_id' => 1,
             'texto' => $dados['texto'],
             'aceita' => false,
@@ -173,12 +218,13 @@ class FilosController extends Controller
         ]);
         //$this->validate($request, $receita->rules, $receita->messages);
         //  $topico = $topicos[0];
-
-        $top = topicos_artigos::find($id);
+        $user = User::find(Auth::user()->id);
         //$update = $top->update(['texto' => $dados['texto']]);
+        $sugestoes_novas = Auth::user()->edicoes_sugeridas + 1;
 
+        $user->update(['edicoes_sugeridas' => $sugestoes_novas]);
 
-        return redirect()->route('index');
+        /// return redirect()->route('index');
     }
 
     /**

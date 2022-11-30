@@ -24,12 +24,17 @@ class User extends Authenticatable
         'type',
         'imagem',
         'artigos_visitados',
+        'edicoes_verificadas',
+        'artigos_criados',
         'edicoes_sugeridas',
         'edicoes_aceitas',
         'exercicios_resolvidos',
+        'exercicios_criados',
         'banido',
         'password',
-        
+
+
+
     ];
 
     /**

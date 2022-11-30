@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\topicos_artigos;
+use App\Models\User;
 
 class EdicaoController extends Controller
 {
@@ -14,11 +15,15 @@ class EdicaoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth')->only(['store', 'index', 'create', 'store', 'edit']);
+    }
     public function index()
     {
         $filos = DB::table('sugestao_edicaos')->where('especialista_id', '=', Auth::user()->id)->get();
         $antigos = DB::table('topicos_artigos')->where('id', '=', $filos[0]->id_topico)->get();
-
+        echo $filos;
         return view('confirmaredicao', compact('filos', 'antigos'));
     }
 
@@ -74,11 +79,30 @@ class EdicaoController extends Controller
      */
     public function update(Request $request)
     {
-        $dados = $request;
-        $top = topicos_artigos::find($dados['confirma']);
-        $filos = DB::table('sugestao_edicaos')->where('id_topico', '=', $top['id'])->get();
-        echo $filos;
-        $update = $top->update(['texto' => $filos[0]->texto]);
+        if (strcmp(auth()->user()->type, 'especialista') == 0) {
+
+            $dados = $request;
+            //$user = User::find($request);
+
+
+            $top = topicos_artigos::find($dados['confirma']);
+
+            echo $top;
+            $filos = DB::table('sugestao_edicaos')->where('id_topico', '=', $top['id'])->get();
+
+            $usuario2 = User::find($filos[0]->user_id); // DB::table('users')->where('id', '=', $filos[0]->user_id)->get();
+            // echo $usuario2;
+            $usuario3 = User::find(Auth::user()->id);
+            $usuario3->update(['edicoes_verificadas' => $usuario3->edicoes_verificadas + 1]);
+            $edicoes_novos = $usuario2->edicoes_aceitas + 1;
+            $usuario2->update(['edicoes_aceitas' => $edicoes_novos]);
+
+
+            $top->update(['texto' => $filos[0]->texto]);
+            $top->update(['imagem' => $filos[0]->imagem]);
+        }
+
+        // echo $filos[0]->texto;
     }
 
     /**

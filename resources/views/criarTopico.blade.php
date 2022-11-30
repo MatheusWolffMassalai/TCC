@@ -2,16 +2,16 @@
 
 @section('content')
 <div class="form-row ">
-    {!! Form::open( ['url' => 'artigo/salvar', 'id' => 'form', 'method' =>
+    {!! Form::open( ['url' => 'criartopico/criar', 'id' => 'form', 'method' =>
     'post','enctype'=>'multipart/form-data']) !!}
     @csrf
     @method('post')
     <select name="id_filo" class="form-select" aria-label="Default select example">
-        @for($i=0; $i < count($filos_usados_certo); $i++) <option value={{$filos_usados_certo[$i]}}>
-            {{$filos_usados_nome_certo[$i]}}
-            </option>
+        @foreach($filos as $filo) <option value={{$filo->nome_filo}}>
+            {{$filo->nome_filo}}
+        </option>
 
-            @endfor
+        @endforeach
     </select>
     <div class="col">
         <span>Pergunta: </span>

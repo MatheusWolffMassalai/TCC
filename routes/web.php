@@ -7,6 +7,13 @@ use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\comentarioController;
 use App\Http\Controllers\ExercicioController;
 
+use App\Http\Controllers\RankingArtigosVisitadosController;
+use App\Http\Controllers\RankingCriarArtigosController;
+use App\Http\Controllers\RankingCriarExerciciosController;
+use App\Http\Controllers\RankingEdicoesFeitasController;
+use App\Http\Controllers\RankingJulgarSugestoesdeEdicaoController;
+use App\Http\Controllers\RankingResolucaoExerciciosController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +39,22 @@ Route::post('/perfil', [App\Http\Controllers\PerfilController::class, 'index']);
 Route::post('/perfil', [App\Http\Controllers\PerfilController::class, 'index']);
 Route::get('/confirmaedicao', [App\Http\Controllers\EdicaoController::class, 'index']);
 Route::post('/confirmaedicao/update', [App\Http\Controllers\EdicaoController::class, 'update']);
+Route::get('/rankinggeral', [App\Http\Controllers\RankingGeralController::class, 'index']);
+Route::get('/rankingartigosvisitados', [App\Http\Controllers\RankingArtigosVisitadosController::class, 'index']);
+Route::get('/rankingcriarartigos', [App\Http\Controllers\RankingCriarArtigosController::class, 'index']);
+Route::get('/rankingcriarexercicios', [App\Http\Controllers\RankingCriarExerciciosController::class, 'index']);
+Route::get('/rankingjulgarsugestoesdeedicao', [App\Http\Controllers\RankingJulgarSugestoesdeEdicaoController::class, 'index']);
+Route::get('/rankingresolucaoexercicios', [App\Http\Controllers\RankingResolucaoExerciciosController::class, 'index']);
+Route::get('/rankingedicoesfeitas', [App\Http\Controllers\RankingEdicoesFeitasController::class, 'index']);
+Route::get('/criartopico/{id}', [App\Http\Controllers\FilosController::class, 'create'])->name('topicocreate');
+Route::post('/criartopico/criar', [App\Http\Controllers\FilosController::class, 'store'])->name('topico');
+Route::get('/novotopico', [App\Http\Controllers\NovoTopico::class, 'index'])->name('novotopico');
+Route::get('/confirmar', [App\Http\Controllers\NovoTopico::class, 'store'])->name('novotopico');
+
+
+
+
+
 
 
 Route::post('/comentario', [App\Http\Controllers\ReceitaController::class, 'store'])->name('comentario');
@@ -53,6 +76,14 @@ Route::resource('perfil', PerfilController::class);
 Route::resource('comentario', comentarioController::class);
 Route::resource('exercicio', ExercicioController::class);
 Route::resource('artigo', ExercicioController::class);
+Route::resource('artigo', ExercicioController::class);
+Route::resource('artigo', ExercicioController::class);
+Route::resource('artigo', ExercicioController::class);
+Route::resource('artigo', ExercicioController::class);
+Route::resource('artigo', ExercicioController::class);
+Route::resource('artigo', ExercicioController::class);
+Route::resource('artigo', ExercicioController::class);
+
 
 Auth::routes();
 

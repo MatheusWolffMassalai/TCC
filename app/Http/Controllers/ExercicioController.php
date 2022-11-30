@@ -20,6 +20,10 @@ class ExercicioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth')->only(['store', 'index', 'create', 'store', 'edit']);
+    }
     public function index($id)
     {
         if ($id == 0) {
@@ -74,17 +78,25 @@ class ExercicioController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request;
 
-        Exercicio::create([
-            'id_filo' => $data['id_filo'],
-            'pergunta' => $data['pergunta'],
-            'resposta_certa' => $data['resposta_correta'],
-            'resposta_errada1' => $data['resposta_errada1'],
-            'resposta_errada2' => $data['resposta_errada2'],
-            'resposta_errada3' => $data['resposta_errada3'],
-        ]);
-        return redirect()->route('index');
+        if (strcmp(auth()->user()->type, 'especialista') == 0) {
+
+            $data = $request;
+
+            Exercicio::create([
+                'id_filo' => $data['id_filo'],
+                'pergunta' => $data['pergunta'],
+                'resposta_certa' => $data['resposta_correta'],
+                'resposta_errada1' => $data['resposta_errada1'],
+                'resposta_errada2' => $data['resposta_errada2'],
+                'resposta_errada3' => $data['resposta_errada3'],
+            ]);
+
+            $usuario3 = User::find(Auth::user()->id);
+            $usuario3->update(['exercicios_criados' => $usuario3->exercicios_criados + 1]);
+
+            return redirect()->route('index');
+        }
     }
 
     /**
@@ -120,7 +132,8 @@ class ExercicioController extends Controller
         $listas[2] = $dados["2"];
         $listas[3] = $dados["3"];
         if ($dados['resposta'] == $exercicios[0]->resposta_certa) {
-            $exercicios_novos = Auth::user()->exercicios_resolvido + 1;
+            $exercicios_novos = Auth::user()->exercicios_resolvidos + 1;
+
             $user->update(['exercicios_resolvidos' => $exercicios_novos]);
             echo "parabens";
         } else {

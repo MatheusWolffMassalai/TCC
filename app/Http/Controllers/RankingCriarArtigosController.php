@@ -4,33 +4,50 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\topicos_artigos;
+use App\Models\Artigo;
+use App\Models\userAcessoArtigo;
+
+use App\Models\Exercicio;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use File;
 
-class PerfilController extends Controller
+class RankingCriarArtigosController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
-    public function __construct()
-    {
-        $this->middleware('auth')->only(['index', 'create', 'update', 'destroy']);
-    }
     public function index()
     {
-        // $usuarios = DB::table('users')->where('id' , auth()->user()->id)->get(); 
-        if (strcmp(auth()->user()->type, 'especialista') == 0) {
+        $dicionarios = [];
+        $rankings = DB::table('users')->get();
 
-            echo "especialista";
+        $table->integer('artigos_visitados');
+        $table->integer('edicoes_verificadas');
+        $table->integer('artigos_criados');
+        $table->integer('edicoes_sugeridas');
+        $table->integer('edicoes_aceitas');
+        $table->integer('exercicios_resolvidos');
+        $table->integer('exercicios_criados');
+
+        //  for ($i = 0; $i < count($rankings); $i++) {
+
+        //     $rankings[$i]->password = $rankings[$i]->artigos_visitados + $rankings[$i]->edicoes_aceitas + $rankings[$i]->exercicios_resolvidos;
+        //     $rankings[$i]->banido = $i;
+
+        foreach ($rankings as $ranking) {
+            $pontuaçao = $ranking->artigos_criados;
+            $dicionarios[$ranking->name] = $pontuaçao;
+            arsort($dicionarios);
         }
+        //  }
 
-
-        return view('perfil');
+        print_r($dicionarios);
+        return view('rankingGeral', compact('rankings', 'dicionarios'));
     }
 
     /**
@@ -40,6 +57,7 @@ class PerfilController extends Controller
      */
     public function create()
     {
+        //
     }
 
     /**
@@ -50,6 +68,7 @@ class PerfilController extends Controller
      */
     public function store(Request $request)
     {
+        //
     }
 
     /**
@@ -60,6 +79,7 @@ class PerfilController extends Controller
      */
     public function show($id)
     {
+        //
     }
 
     /**
@@ -82,42 +102,7 @@ class PerfilController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $dados = $request->except('imagem');
-        $imagem = $request->file('imagem');
-        $user = User::find($id);
-
-        if ($request->hasFile('imagem')) {
-
-            $nome = "imagem/{$user->getAttributes()['imagem']}";
-            if ($nome != "padrao.png") {
-                File::delete($nome);
-                $extensao = "." . $imagem->extension();
-                $novonome = md5(time()) . $extensao;
-                $imagem->move('imagem', ($novonome));
-                $teste = array('imagem' => $novonome);
-
-
-                $update2 = $user->update($teste);
-            }
-        }
-
-
-
-        //  $this->validate($request, $receita->rules, $receita->messages);
-
-
-        //  $dataForm = $request->except('imagem');
-
-        //  $produto = Produto::find($id);
-        // $this->validate($request, $produto->rules, $produto->messages);
-        //  $update = $produto->update($dataForm);
-
-        $update = $user->update(['name' => $dados["nome"]]);
-        //  return redirect()->route('perfil.index');//->with(['erros'=> 'Falha ao editar']);
-
-        // $Atualiza = User::where('id', '=', Auth::user()->id)->update(['name' => $dados -> "nome"]);
-
-
+        //
     }
 
     /**

@@ -37,6 +37,7 @@
                 {!! Form::submit('Editar', ['class' => 'btn btn-lg btn-block']) !!}
                 {!! Form::close() !!}
 
+
             </div>
 
 
@@ -59,8 +60,16 @@
                 <p>
 
                     {!! $topico->texto !!}
-                    @endforeach
 
+
+                    @endforeach
+                    {!! Form::open(['url' => 'criartopico/'.$filos[0]->id, 'id' => 'editar','method'
+                    =>
+                    'get','enctype'=>'multipart/form-data']) !!}
+                    @csrf
+
+                    {!! Form::submit('adicionar tópico', ['class' => 'btn btn-lg btn-block']) !!}
+                    {!! Form::close() !!}
                 </p>
             </div>
 
