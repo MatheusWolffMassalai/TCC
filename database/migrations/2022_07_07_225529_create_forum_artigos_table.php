@@ -18,7 +18,11 @@ class CreateForumArtigosTable extends Migration
             $table->unsignedBigInteger('artigo_id');
             $table->text('mensagem');
             $table->unsignedBigInteger('user_id');
+            $table->string('user_name');
+            $table->string('user_imagem');
             $table->foreign('user_id')->references('id')->on('users');
+            // $table->foreign('user_name')->references('name')->on('users');
+            // $table->foreign('user_imagem')->references('imagem')->on('users');
             $table->foreign('artigo_id')->references('id')->on('artigo');
         });
     }

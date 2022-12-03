@@ -22,6 +22,7 @@ class NovosTopicos extends Migration
             $table->text('titulo');
             $table->boolean('aceito');
             $table->string('imagem')->nullable();
+            $table->string('referencias');
             $table->foreign('artigo_id')->references('id')->on('artigo');
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('especialista_id')->references('id')->on('users');

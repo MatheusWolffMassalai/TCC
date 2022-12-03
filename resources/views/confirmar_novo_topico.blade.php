@@ -15,7 +15,10 @@
 
 
         </div>
-
+        {!! Form::open( ['url' => 'confirmar', 'id' => 'form', 'method' =>
+        'post','enctype'=>'multipart/form-data']) !!}
+        @csrf
+        @method('post')
 
         <div class="row">
             <div class="col">
@@ -40,8 +43,12 @@
 
 
         </div>
+        {!! Form::hidden('id', $novo->id) !!}
+        {!! Form::submit('Confirmar', ['class' => 'btn btn-lg btn-block' , 'id' => 'enviar']) !!}
+
+        {!! Form::close() !!}
         @endforeach
-        <a href="{{ url('/confirmar/') }}"> confirmar </a>
+
 
 
 

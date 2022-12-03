@@ -89,15 +89,42 @@ class ArtigoController extends Controller
             ]);
             $artigos = DB::table('artigo')->where('id_filo', $filos[0]->id)->get();
 
-            topicos_artigos::create([
-                'artigo_id' => $artigos[0]->id,
-                'titulo' => $data['titulo'],
-                'texto' => $data['texto'],
-                'aceito' => true,
-                'referencias' => $data['referencias'],
+
+            if ($request->hasFile('imagem')) {
+                $imagem = $data['imagem'];
+                if ("a" != "padrao.png" and "a" != "") {
+
+                    $extensao = "." . $imagem->extension();
+                    $novonome = md5(time()) . $extensao;
+                    $imagem->move('imagem', ($novonome));
 
 
-            ]);
+                    topicos_artigos::create([
+                        'artigo_id' => $artigos[0]->id,
+                        'titulo' => $data['titulo'],
+                        'texto' => $data['texto'],
+                        'aceito' => true,
+                        'imagem' => $novonome,
+                        'referencias' => $data['referencias'],
+
+
+                    ]);
+
+                    //  $update2 = $imagem->update($teste);
+                }
+            } else {
+
+                topicos_artigos::create([
+                    'artigo_id' => $artigos[0]->id,
+                    'titulo' => $data['titulo'],
+                    'texto' => $data['texto'],
+                    'aceito' => true,
+                    'imagem' => 'colocar.png',
+                    'referencias' => $data['referencias'],
+
+
+                ]);
+            }
 
             //   topicos_artigos::create([
             ////       'artigo_id' => $filos[0]->id,

@@ -58,6 +58,8 @@ class comentarioController extends Controller
         $forum->mensagem = $request->mensagem;
         $id = $request->filo_id;
         $forum->user_id =  Auth::user()->id;
+        $forum->user_name =  Auth::user()->name;
+        $forum->user_imagem =  Auth::user()->imagem;
 
 
 

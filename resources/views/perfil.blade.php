@@ -45,6 +45,9 @@
         <a href="{{ url('/novotopico/') }}">
             <h2 class="filosTextos">a </h2>
         </a>
+        <a href="{{ url('/confirmaedicao/') }}">
+            <h2 class="filosTextos">a </h2>
+        </a>
     </h1>
     <p></p>
     Artigos visitados: {{Auth::user()->artigos_visitados}}

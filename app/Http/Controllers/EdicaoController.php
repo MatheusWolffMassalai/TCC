@@ -17,7 +17,7 @@ class EdicaoController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->only(['store', 'index', 'create', 'store', 'edit']);
+        $this->middleware('auth')->only(['store', 'index', 'create', 'store', 'edit', 'update']);
     }
     public function index()
     {

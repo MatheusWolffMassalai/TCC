@@ -102,7 +102,10 @@
 
             @foreach ($forums as $forum)
             <div class="comentarios">
-                <p>{{$forum->user_id}}<br>
+                <p>
+                    <img class="img-perfil" src={{asset('imagem/'.$forum->user_imagem)}}>
+                    {{$forum->user_name}}
+                    {{$forum->user_id}}<br>
                     {{$forum->mensagem}}
                 </p>
             </div>

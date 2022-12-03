@@ -48,15 +48,16 @@ class NovoTopico extends Controller
      */
     public function store(Request $request)
     {
-        //  topicos_artigos::create([
-        //      'artigo_id' => $artigos[0]->id,
-        //      'titulo' => $data['titulo'],
-        //     'texto' => $data['texto'],
-        //      'aceito' => true,
-        //      'referencias' => $data['referencias'],
-
-
-        //  ]);
+        $artigos =  DB::table('novos_topicos')->where('id', $request['id'])->get();
+        echo $artigos;
+        topicos_artigos::create([
+            'artigo_id' => $artigos[0]->artigo_id,
+            'titulo' => $artigos[0]->titulo,
+            'texto' => $artigos[0]->texto,
+            'aceito' => true,
+            'referencias' => $artigos[0]->referencias,
+            'imagem' => $artigos[0]->imagem
+        ]);
         return view('perfil');
     }
 

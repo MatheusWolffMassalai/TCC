@@ -14,7 +14,7 @@
         @endforeach
     </select>
     <div class="col">
-        <span>Pergunta: </span>
+        <span>Nome do tópico </span>
         {!! Form::text('titulo', null, ['class' => 'form-control', 'placeholder' => 'pergunta']) !!}
         <div class="valid-feedback">Válido.</div>
         <div class="invalid-feedback">Por favor, coloque o seu usuário.</div>
@@ -38,7 +38,14 @@
         <div class="valid-feedback">Válido.</div>
         <div class="invalid-feedback">Por favor, coloque seu cpf.</div>
     </div>
+    <div class="col">
 
+        <span>Mudar imagem:</span>
+        {!! Form::file('imagem', ['class' => 'form-control']) !!}
+
+        <div class="valid-feedback">Válido.</div>
+        <div class="invalid-feedback">Por favor, coloque uma imagem.</div>
+    </div>
 
 </div>
 <div class="form-row">

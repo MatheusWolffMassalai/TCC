@@ -20,7 +20,8 @@ class novos_topico extends Model
         'artigo_id',
         'aceito',
         'user_id',
-        'especialista_id'
+        'especialista_id',
+        'referencias'
 
 
     ];

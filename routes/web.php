@@ -49,7 +49,7 @@ Route::get('/rankingedicoesfeitas', [App\Http\Controllers\RankingEdicoesFeitasCo
 Route::get('/criartopico/{id}', [App\Http\Controllers\FilosController::class, 'create'])->name('topicocreate');
 Route::post('/criartopico/criar', [App\Http\Controllers\FilosController::class, 'store'])->name('topico');
 Route::get('/novotopico', [App\Http\Controllers\NovoTopico::class, 'index'])->name('novotopico');
-Route::get('/confirmar', [App\Http\Controllers\NovoTopico::class, 'store'])->name('novotopico');
+Route::post('/confirmar', [App\Http\Controllers\NovoTopico::class, 'store'])->name('novotopico');
 
 
 

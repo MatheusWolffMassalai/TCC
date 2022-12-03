@@ -14,7 +14,7 @@
             @endfor
     </select>
     <div class="col">
-        <span>Pergunta: </span>
+        <span>Nome do tópico: </span>
         {!! Form::text('titulo', null, ['class' => 'form-control', 'placeholder' => 'pergunta']) !!}
         <div class="valid-feedback">Válido.</div>
         <div class="invalid-feedback">Por favor, coloque o seu usuário.</div>
@@ -27,16 +27,25 @@
         <div class="valid-feedback">Válido.</div>
         <div class="invalid-feedback">Por favor, coloque um Email válido.</div>
     </div>
-
-</div>
-<div class="form-row">
-
     <div class="col">
 
-        <span>Referências:</span>
-        {!! Form::textarea('referencias', null, ['class' => 'form-control', 'placeholder' => 'Nome:']) !!}
+        <span>Mudar imagem:</span>
+
+
+    </div>
+    <div class="form-row">
+
+        <div class="col">
+
+            <span>Referências:</span>
+            {!! Form::textarea('referencias', null, ['class' => 'form-control', 'placeholder' => 'Nome:']) !!}
+            <div class="valid-feedback">Válido.</div>
+            <div class="invalid-feedback">Por favor, coloque seu cpf.</div>
+        </div>
+        {!! Form::file('imagem', ['class' => 'form-control']) !!}
+
         <div class="valid-feedback">Válido.</div>
-        <div class="invalid-feedback">Por favor, coloque seu cpf.</div>
+        <div class="invalid-feedback">Por favor, coloque uma imagem.</div>
     </div>
 
 

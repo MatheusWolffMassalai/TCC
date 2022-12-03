@@ -114,36 +114,66 @@ class FilosController extends Controller
 
         $filos = DB::table('artigo')->where('nome_filo', $request['id_filo'])->get();
 
-        echo $filos;
-        novos_topico::create([
-
-            'user_id' => Auth::user()->id,
-            'especialista_id' => 2,
-            'texto' => $request['texto'],
-            'aceito' => false,
-            'imagem' => $request['user'],
-            'artigo_id' => $filos[0]->id,
-            'titulo' => $request['titulo'],
-            //'referencias' => $request['referencias']
+        //  echo $filos;
 
 
-        ]);
-        //  topicos_artigos::create([
-        //      'artigo_id' => $filos[0]->id,
-        //      'texto' => $request['texto'],
-        //      'titulo' => $request['titulo'],
-        //     'imagem' => $request['user'],
-        //     'aceito' => false,
-        //     'referencias' => $request['referencias']
-        //  ]);
-        echo  $request['texto'];
+        if ($request->hasFile('imagem')) {
+            $imagem = $request['imagem'];
+            if ("a" != "padrao.png" and "a" != "") {
+
+                $extensao = "." . $imagem->extension();
+                $novonome = md5(time()) . $extensao;
+                $imagem->move('imagem', ($novonome));
+
+                novos_topico::create([
+
+                    'user_id' => Auth::user()->id,
+                    'especialista_id' => 1,
+                    'texto' => $request['texto'],
+                    'aceito' => false,
+                    'imagem' => $novonome,
+                    'artigo_id' => $filos[0]->id,
+                    'titulo' => $request['titulo'],
+                    'referencias' => $request['referencias']
+
+
+                ]);
+
+                //  $update2 = $imagem->update($teste);
+            }
+        } else {
+            novos_topico::create([
+
+                'user_id' => Auth::user()->id,
+                'especialista_id' => 1,
+                'texto' => $request['texto'],
+                'aceito' => false,
+                'imagem' => "colocar.png",
+                'artigo_id' => $filos[0]->id,
+                'titulo' => $request['titulo'],
+                'referencias' => $request['referencias']
+            ]);
+        }
+
         // echo $request['referancias'];
         // echo  $request['titulo'];
         // echo  $request['user'];
 
-        // ]);
+        // ]);  
+        //printf($request);
+
         return view('perfil');
     }
+    //  topicos_artigos::create([
+    //      'artigo_id' => $filos[0]->id,
+    //      'texto' => $request['texto'],
+    //      'titulo' => $request['titulo'],
+    //     'imagem' => $request['user'],
+    //     'aceito' => false,
+    //     'referencias' => $request['referencias']
+    //  ]);
+
+
 
     /**
      * Display the specified resource.
