@@ -215,6 +215,15 @@ class FilosController extends Controller
         $dados = $request->except('imagem');
         $imagem = $request->file('imagem');
 
+$ids= DB::table('users')->where('type', "especialista")->get('id');
+echo count($ids);
+
+
+
+$numero_id = rand(0, count($ids) -1 );
+
+echo $numero_id;
+
 
         $top = topicos_artigos::find($id);
         if ($request->hasFile('imagem')) {
@@ -235,17 +244,18 @@ class FilosController extends Controller
                 $novonome = md5(time()) . $extensao;
                 $imagem->move('imagem', ($novonome));
             }
+            sugestao_edicao::create([
+                'id_topico' => $dados['id'],
+                'user_id' => $dados['user'],
+                'especialista_id' => $ids[$numero_id]->id,
+                'texto' => $dados['texto'],
+                'aceita' => false,
+                'imagem' => $novonome,
+    
+            ]);
         }
-        print_r($dados);
-        sugestao_edicao::create([
-            'id_topico' => $dados['id'],
-            'user_id' => $dados['user'],
-            'especialista_id' => 1,
-            'texto' => $dados['texto'],
-            'aceita' => false,
-            'imagem' => $novonome,
-
-        ]);
+      //  print_r($dados);
+        
         //$this->validate($request, $receita->rules, $receita->messages);
         //  $topico = $topicos[0];
         $user = User::find(Auth::user()->id);
