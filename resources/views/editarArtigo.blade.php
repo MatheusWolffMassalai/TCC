@@ -32,29 +32,28 @@
         </div>
 
     </div>
-    <div class="form-row">
 
-        <div class="col">
+    <div class="col">
 
-            <span>Referências:</span>
-            {!! Form::textarea('referancias', null, ['class' => 'form-control', 'placeholder' => 'Nome:']) !!}
-            <div class="valid-feedback">Válido.</div>
-            <div class="invalid-feedback">Por favor, coloque seu cpf.</div>
-        </div>
-
-
-        <div class="col">
-
-            <span>Mudar imagem:</span>
-            {!! Form::file('imagem', ['class' => 'form-control']) !!}
-
-            <div class="valid-feedback">Válido.</div>
-            <div class="invalid-feedback">Por favor, coloque uma imagem.</div>
-        </div>
-
-
-
+        <span>Referências:</span>
+        {!! Form::textarea('referencias', null, ['class' => 'form-control', 'placeholder' => 'Nome:']) !!}
+        <div class="valid-feedback">Válido.</div>
+        <div class="invalid-feedback">Por favor, coloque seu cpf.</div>
     </div>
+
+
+    <div class="col">
+
+        <span>Mudar imagem:</span>
+        {!! Form::file('imagem', ['class' => 'form-control']) !!}
+
+        <div class="valid-feedback">Válido.</div>
+        <div class="invalid-feedback">Por favor, coloque uma imagem.</div>
+    </div>
+
+
+
+
     <div class="form-row">
         <div class="col-6">
             <div>
