@@ -215,6 +215,7 @@ class FilosController extends Controller
         $dados = $request->except('imagem');
         $imagem = $request->file('imagem');
 
+<<<<<<< HEAD
         $ids = DB::table('users')->where('type', "especialista")->get('id');
         echo count($ids);
 
@@ -223,6 +224,16 @@ class FilosController extends Controller
         $numero_id = rand(0, count($ids) - 1);
 
         echo $numero_id;
+=======
+$ids= DB::table('users')->where('type', "especialista")->get('id');
+echo count($ids);
+
+
+
+$numero_id = rand(0, count($ids) -1 );
+
+echo $numero_id;
+>>>>>>> 60d187fa72402630d228fcb25d68949cf27a3950
 
 
         $top = topicos_artigos::find($id);
@@ -248,6 +259,7 @@ class FilosController extends Controller
                 'texto' => $dados['texto'],
                 'aceita' => false,
                 'imagem' => $novonome,
+<<<<<<< HEAD
 
             ]);
         } else {
@@ -265,6 +277,13 @@ class FilosController extends Controller
 
         //  print_r($dados);
 
+=======
+    
+            ]);
+        }
+      //  print_r($dados);
+        
+>>>>>>> 60d187fa72402630d228fcb25d68949cf27a3950
         //$this->validate($request, $receita->rules, $receita->messages);
         //  $topico = $topicos[0];
         $user = User::find(Auth::user()->id);

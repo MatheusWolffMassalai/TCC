@@ -7,7 +7,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\topicos_artigos;
 use App\Models\sugestao_edicao;
+<<<<<<< HEAD
 use File;
+=======
+
+>>>>>>> 60d187fa72402630d228fcb25d68949cf27a3950
 use App\Models\User;
 
 class EdicaoController extends Controller
@@ -23,7 +27,11 @@ class EdicaoController extends Controller
     }
     public function index()
     {
+<<<<<<< HEAD
         $filos = DB::table('sugestao_edicaos')->where('especialista_id', '=', Auth::user()->id)->where('aceita', '=', false)->get();
+=======
+        $filos = DB::table('sugestao_edicaos')->where('especialista_id', '=', Auth::user()->id)->where('aceita', '=', false )->get();
+>>>>>>> 60d187fa72402630d228fcb25d68949cf27a3950
         $antigos = DB::table('topicos_artigos')->where('id', '=', $filos[0]->id_topico)->get();
         echo $filos;
         return view('confirmaredicao', compact('filos', 'antigos'));
@@ -90,11 +98,16 @@ class EdicaoController extends Controller
 
             $top = topicos_artigos::find($dados['confirma']);
 
+<<<<<<< HEAD
             //   echo $top;
             $nome = "imagem/{$top->getAttributes()['imagem']}";
 
             File::delete($nome);
             $filos = DB::table('sugestao_edicaos')->where('id_topico', '=', $top['id'])->where('aceita', '=', false)->get();
+=======
+         //   echo $top;
+            $filos = DB::table('sugestao_edicaos')->where('id_topico', '=', $top['id'])->get();
+>>>>>>> 60d187fa72402630d228fcb25d68949cf27a3950
             echo $filos;
             $suges = sugestao_edicao::find($filos[0]->id);
             $usuario2 = User::find($filos[0]->user_id); // DB::table('users')->where('id', '=', $filos[0]->user_id)->get();
@@ -106,9 +119,12 @@ class EdicaoController extends Controller
 
 
             $top->update(['imagem' => $filos[0]->imagem]);
+<<<<<<< HEAD
 
             $top->update(['texto' => $filos[0]->texto]);
 
+=======
+>>>>>>> 60d187fa72402630d228fcb25d68949cf27a3950
             $suges->update(['aceita' => true]);
         }
 
